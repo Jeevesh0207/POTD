@@ -1,3 +1,4 @@
+// ----------------- C++ -----------------
 class Solution {
 public:
     string largestNumber(vector<int>& nums) {
@@ -12,3 +13,69 @@ public:
         return res[0] == '0' ? "0" : res;
     }
 };
+
+// ----------------- C -----------------
+int compare(const void *a, const void *b) {
+    char ab[50], ba[50];
+    sprintf(ab, "%d%d", *(int*)a, *(int*)b);
+    sprintf(ba, "%d%d", *(int*)b, *(int*)a);
+    return strcmp(ba, ab);
+}
+
+char* largestNumber(int* nums, int numsSize) {
+    qsort(nums, numsSize, sizeof(int), compare);
+
+    char* result = malloc(1000 * sizeof(char));
+    result[0] = '\0';
+
+    for (int i = 0; i < numsSize; ++i) {
+        char str[12];
+        sprintf(str, "%d", nums[i]);
+        strcat(result, str);
+    }
+
+    if (result[0] == '0')
+        return "0";
+    return result;
+}
+
+// ----------------- Java -----------------
+class Solution {
+    public String largestNumber(int[] nums) {
+        String[] numStrs = new String[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            numStrs[i] = String.valueOf(nums[i]);
+        }
+
+        Arrays.sort(numStrs, (a, b) -> (b + a).compareTo(a + b));
+
+        StringBuilder sb = new StringBuilder();
+        for (String num : numStrs) {
+            sb.append(num);
+        }
+
+        String result = sb.toString();
+        return result.startsWith("0") ? "0" : result;
+    }
+}
+
+// ----------------- Python -----------------
+class Solution:
+    def largestNumber(self, nums):
+        nums = sorted(map(str, nums), key=lambda x: x*10, reverse=True)
+        result = ''.join(nums)
+        return '0' if result[0] == '0' else result
+
+// ----------------- Javascript -----------------
+var largestNumber = function(nums) {
+    nums.sort((a, b) => ('' + b + a) - ('' + a + b));
+    let result = nums.join('');
+    return result[0] === '0' ? '0' : result;
+};
+
+// ----------------- Typescript -----------------
+function largestNumber(nums: number[]): string {
+    nums.sort((a, b) => ('' + b + a).localeCompare('' + a + b));
+    const result = nums.join('');
+    return result[0] === '0' ? '0' : result;
+}
