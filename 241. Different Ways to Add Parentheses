@@ -1,0 +1,185 @@
+// ------------ C++ ------------
+class Solution {
+public:
+    // Function to compute result of the operation
+    int calc(int a, int b, char op) {
+        if (op == '+') return a + b;
+        if (op == '-') return a - b;
+        return a * b;  // op == '*'
+    }
+    
+    vector<int> diffWaysToCompute(string exp) {
+        vector<int> res;
+        bool isNum = true;  // Check if exp is a number
+        
+        for (int i = 0; i < exp.size(); i++) {
+            if (!isdigit(exp[i])) {  // If current char is an operator
+                isNum = false;
+                
+                // Recursively split into left and right parts
+                vector<int> L = diffWaysToCompute(exp.substr(0, i));
+                vector<int> R = diffWaysToCompute(exp.substr(i + 1));
+                
+                // Combine results from left and right using the operator
+                for (int x : L) {
+                    for (int y : R) {
+                        res.push_back(calc(x, y, exp[i]));
+                    }
+                }
+            }
+        }
+        
+        if (isNum) res.push_back(stoi(exp));  // If exp is just a number
+        return res;
+    }
+};
+
+
+// ------------ Java ------------
+import java.util.ArrayList;
+import java.util.List;
+
+class Solution {
+    // Function to compute result of the operation
+    private int calc(int a, int b, char op) {
+        if (op == '+') return a + b;
+        if (op == '-') return a - b;
+        return a * b;  // op == '*'
+    }
+    
+    public List<Integer> diffWaysToCompute(String exp) {
+        List<Integer> res = new ArrayList<>();
+        boolean isNum = true;  // Check if exp is a number
+        
+        for (int i = 0; i < exp.length(); i++) {
+            if (!Character.isDigit(exp.charAt(i))) {  // If current char is an operator
+                isNum = false;
+                
+                // Recursively split into left and right parts
+                List<Integer> L = diffWaysToCompute(exp.substring(0, i));
+                List<Integer> R = diffWaysToCompute(exp.substring(i + 1));
+                
+                // Combine results from left and right using the operator
+                for (int x : L) {
+                    for (int y : R) {
+                        res.add(calc(x, y, exp.charAt(i)));
+                    }
+                }
+            }
+        }
+        
+        if (isNum) res.add(Integer.parseInt(exp));  // If exp is just a number
+        return res;
+    }
+}
+
+// ------------ Python ------------
+class Solution:
+    # Function to compute result of the operation
+    def calc(self, a, b, op):
+        if op == '+':
+            return a + b
+        if op == '-':
+            return a - b
+        return a * b  # op == '*'
+
+    def diffWaysToCompute(self, exp):
+        res = []
+        is_num = True  # Check if exp is a number
+        
+        for i in range(len(exp)):
+            if not exp[i].isdigit():  # If current char is an operator
+                is_num = False
+                
+                # Recursively split into left and right parts
+                L = self.diffWaysToCompute(exp[:i])
+                R = self.diffWaysToCompute(exp[i + 1:])
+                
+                # Combine results from left and right using the operator
+                for x in L:
+                    for y in R:
+                        res.append(self.calc(x, y, exp[i]))
+        
+        if is_num:
+            res.append(int(exp))  # If exp is just a number
+        return res
+
+
+// ------------ Javascript ------------
+class Solution {
+    // Function to compute result of the operation
+    calc(a, b, op) {
+        if (op === '+') return a + b;
+        if (op === '-') return a - b;
+        return a * b;  // op === '*'
+    }
+    
+    diffWaysToCompute(exp) {
+        const res = [];
+        let isNum = true;  // Check if exp is a number
+        
+        for (let i = 0; i < exp.length; i++) {
+            if (!/\d/.test(exp[i])) {  // If current char is an operator
+                isNum = false;
+                
+                // Recursively split into left and right parts
+                const L = this.diffWaysToCompute(exp.substring(0, i));
+                const R = this.diffWaysToCompute(exp.substring(i + 1));
+                
+                // Combine results from left and right using the operator
+                for (const x of L) {
+                    for (const y of R) {
+                        res.push(this.calc(x, y, exp[i]));
+                    }
+                }
+            }
+        }
+        
+        if (isNum) res.push(parseInt(exp));  // If exp is just a number
+        return res;
+    }
+}
+
+// Example usage:
+// const solution = new Solution();
+// console.log(solution.diffWaysToCompute("2-1-1"));
+
+
+// ------------ Typescipt ------------
+class Solution {
+    // Function to compute result of the operation
+    private calc(a: number, b: number, op: string): number {
+        if (op === '+') return a + b;
+        if (op === '-') return a - b;
+        return a * b;  // op === '*'
+    }
+
+    diffWaysToCompute(exp: string): number[] {
+        const res: number[] = [];
+        let isNum = true;  // Check if exp is a number
+        
+        for (let i = 0; i < exp.length; i++) {
+            if (!/\d/.test(exp[i])) {  // If current char is an operator
+                isNum = false;
+                
+                // Recursively split into left and right parts
+                const L = this.diffWaysToCompute(exp.substring(0, i));
+                const R = this.diffWaysToCompute(exp.substring(i + 1));
+                
+                // Combine results from left and right using the operator
+                for (const x of L) {
+                    for (const y of R) {
+                        res.push(this.calc(x, y, exp[i]));
+                    }
+                }
+            }
+        }
+        
+        if (isNum) res.push(parseInt(exp));  // If exp is just a number
+        return res;
+    }
+}
+
+// Example usage:
+// const solution = new Solution();
+// console.log(solution.diffWaysToCompute("2-1-1"));
