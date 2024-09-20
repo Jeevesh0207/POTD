@@ -1,0 +1,131 @@
+// --------- C++ ------------
+class Solution {
+public:
+    int kmp(string& s) {
+        int n = s.size();
+        int i = 0;
+        vector<int> longPal(n + 1, 0);
+        for (int j = 1; j < n; j++) {
+            while (i > 0 && s[i] != s[j]) {
+                i = longPal[i - 1];
+            }
+            if (s[i] == s[j]) {
+                i++;
+            }
+            longPal[j] = i;
+        }
+        return longPal[n - 1];
+    }
+    string shortestPalindrome(string s) {
+        string r = s;
+        reverse(r.begin(), r.end());
+        string temp = s + "#" + r;
+        int len = kmp(temp);
+        string newS = s.substr(len);
+        reverse(newS.begin(), newS.end());
+        return newS + s;
+    }
+};
+
+// --------- Java ------------
+class Solution {
+    private int kmp(String s) {
+        int n = s.length();
+        int i = 0;
+        int[] longPal = new int[n + 1];
+        for (int j = 1; j < n; j++) {
+            while (i > 0 && s.charAt(i) != s.charAt(j)) {
+                i = longPal[i - 1];
+            }
+            if (s.charAt(i) == s.charAt(j)) {
+                i++;
+            }
+            longPal[j] = i;
+        }
+        return longPal[n - 1];
+    }
+
+    public String shortestPalindrome(String s) {
+        String r = new StringBuilder(s).reverse().toString();
+        String temp = s + "#" + r;
+        int len = kmp(temp);
+        String newS = new StringBuilder(s.substring(len)).reverse().toString();
+        return newS + s;
+    }
+}
+
+
+// --------- Python ------------
+class Solution:
+    def kmp(self, s: str) -> int:
+        n = len(s)
+        i = 0
+        long_pal = [0] * (n + 1)
+        for j in range(1, n):
+            while i > 0 and s[i] != s[j]:
+                i = long_pal[i - 1]
+            if s[i] == s[j]:
+                i += 1
+            long_pal[j] = i
+        return long_pal[n - 1]
+
+    def shortestPalindrome(self, s: str) -> str:
+        r = s[::-1]
+        temp = s + "#" + r
+        length = self.kmp(temp)
+        new_s = s[length:][::-1]
+        return new_s + s
+
+// --------- Javascrpit ------------
+class Solution {
+    kmp(s) {
+        const n = s.length;
+        let i = 0;
+        const longPal = new Array(n + 1).fill(0);
+        for (let j = 1; j < n; j++) {
+            while (i > 0 && s[i] !== s[j]) {
+                i = longPal[i - 1];
+            }
+            if (s[i] === s[j]) {
+                i++;
+            }
+            longPal[j] = i;
+        }
+        return longPal[n - 1];
+    }
+
+    shortestPalindrome(s) {
+        const r = s.split('').reverse().join('');
+        const temp = s + '#' + r;
+        const len = this.kmp(temp);
+        const newS = s.slice(len).split('').reverse().join('');
+        return newS + s;
+    }
+}
+
+// --------- Typescript ------------
+class Solution {
+    private kmp(s: string): number {
+        const n = s.length;
+        let i = 0;
+        const longPal: number[] = new Array(n + 1).fill(0);
+        for (let j = 1; j < n; j++) {
+            while (i > 0 && s[i] !== s[j]) {
+                i = longPal[i - 1];
+            }
+            if (s[i] === s[j]) {
+                i++;
+            }
+            longPal[j] = i;
+        }
+        return longPal[n - 1];
+    }
+
+    public shortestPalindrome(s: string): string {
+        const r = s.split('').reverse().join('');
+        const temp = s + '#' + r;
+        const len = this.kmp(temp);
+        const newS = s.slice(len).split('').reverse().join('');
+        return newS + s;
+    }
+}
