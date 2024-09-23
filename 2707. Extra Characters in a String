@@ -1,0 +1,138 @@
+//-------C++------
+class Solution {
+public:
+    int dp[51];
+    int solve(int i, string& s, unordered_set<string>& mp, int& n) {
+        if (i == n)
+            return 0;
+        if (dp[i] != -1) return dp[i];
+        int result = 1 + solve(i + 1, s, mp, n);
+
+        for (int j = i; j < n; j++) {
+            string str = s.substr(i, j - i + 1);
+            if (mp.count(str)) {
+                result = min(result, solve(j + 1, s, mp, n));
+            }
+        }
+        return dp[i] = result;
+    }
+
+    int minExtraChar(string s, vector<string>& dictionary) {
+        int n = s.size();
+        memset(dp, -1, sizeof(dp));
+        unordered_set<string> mp(dictionary.begin(), dictionary.end());
+        return solve(0, s, mp, n);
+    }
+};
+
+//------Java------
+import java.util.*;
+
+class Solution {
+    int[] dp = new int[51];
+
+    private int solve(int i, String s, Set<String> mp, int n) {
+        if (i == n)
+            return 0;
+        if (dp[i] != -1)
+            return dp[i];
+
+        int result = 1 + solve(i + 1, s, mp, n);
+
+        for (int j = i; j < n; j++) {
+            String str = s.substring(i, j + 1);
+            if (mp.contains(str)) {
+                result = Math.min(result, solve(j + 1, s, mp, n));
+            }
+        }
+        return dp[i] = result;
+    }
+
+    public int minExtraChar(String s, List<String> dictionary) {
+        int n = s.length();
+        Arrays.fill(dp, -1);
+        Set<String> mp = new HashSet<>(dictionary);
+        return solve(0, s, mp, n);
+    }
+}
+
+#------Python------
+class Solution:
+    def __init__(self):
+        self.dp = [-1] * 51
+
+    def solve(self, i, s, mp, n):
+        if i == n:
+            return 0
+        if self.dp[i] != -1:
+            return self.dp[i]
+
+        result = 1 + self.solve(i + 1, s, mp, n)
+
+        for j in range(i, n):
+            str_ = s[i:j + 1]
+            if str_ in mp:
+                result = min(result, self.solve(j + 1, s, mp, n))
+
+        self.dp[i] = result
+        return self.dp[i]
+
+    def minExtraChar(self, s, dictionary):
+        n = len(s)
+        mp = set(dictionary)
+        return self.solve(0, s, mp, n)
+
+//------JavaScript------
+class Solution {
+    constructor() {
+        this.dp = new Array(51).fill(-1);
+    }
+
+    solve(i, s, mp, n) {
+        if (i === n) return 0;
+        if (this.dp[i] !== -1) return this.dp[i];
+
+        let result = 1 + this.solve(i + 1, s, mp, n);
+
+        for (let j = i; j < n; j++) {
+            const str = s.substring(i, j + 1);
+            if (mp.has(str)) {
+                result = Math.min(result, this.solve(j + 1, s, mp, n));
+            }
+        }
+        return (this.dp[i] = result);
+    }
+
+    minExtraChar(s, dictionary) {
+        const n = s.length;
+        const mp = new Set(dictionary);
+        return this.solve(0, s, mp, n);
+    }
+}
+
+//------TypeScript------
+class Solution {
+    private dp: number[] = new Array(51).fill(-1);
+
+    private solve(i: number, s: string, mp: Set<string>, n: number): number {
+        if (i === n) return 0;
+        if (this.dp[i] !== -1) return this.dp[i];
+
+        let result = 1 + this.solve(i + 1, s, mp, n);
+
+        for (let j = i; j < n; j++) {
+            const str = s.substring(i, j + 1);
+            if (mp.has(str)) {
+                result = Math.min(result, this.solve(j + 1, s, mp, n));
+            }
+        }
+        return (this.dp[i] = result);
+    }
+
+    public minExtraChar(s: string, dictionary: string[]): number {
+        const n = s.length;
+        const mp = new Set(dictionary);
+        return this.solve(0, s, mp, n);
+    }
+}
+
