@@ -1,0 +1,135 @@
+//-------C++------
+#include <vector>
+#include <string>
+#include <unordered_set>
+#include <algorithm>
+
+class Solution {
+public:
+    int longestCommonPrefix(std::vector<int>& arr1, std::vector<int>& arr2) {
+        std::unordered_set<std::string> mp;
+        int n = arr1.size();
+        for (auto i : arr1) {
+            std::string str = std::to_string(i);
+            std::string prefix = "";
+            for (auto ch : str) {
+                prefix += ch;
+                mp.insert(prefix);
+            }
+        }
+        int ans = 0;
+        for (auto i : arr2) {
+            std::string str = std::to_string(i);
+            std::string prefix = "";
+            for (auto ch : str) {
+                prefix += ch;
+                if (mp.count(prefix)) ans = std::max(ans, (int)prefix.size());
+            }
+        }
+        return ans;
+    }
+};
+
+//------Java------
+import java.util.*;
+
+class Solution {
+    public int longestCommonPrefix(List<Integer> arr1, List<Integer> arr2) {
+        Set<String> mp = new HashSet<>();
+        for (int num : arr1) {
+            String str = String.valueOf(num);
+            StringBuilder prefix = new StringBuilder();
+            for (char ch : str.toCharArray()) {
+                prefix.append(ch);
+                mp.add(prefix.toString());
+            }
+        }
+        int ans = 0;
+        for (int num : arr2) {
+            String str = String.valueOf(num);
+            StringBuilder prefix = new StringBuilder();
+            for (char ch : str.toCharArray()) {
+                prefix.append(ch);
+                if (mp.contains(prefix.toString())) {
+                    ans = Math.max(ans, prefix.length());
+                }
+            }
+        }
+        return ans;
+    }
+}
+
+#------Python------
+class Solution:
+    def longestCommonPrefix(self, arr1, arr2):
+        mp = set()
+        for num in arr1:
+            str_num = str(num)
+            prefix = ""
+            for ch in str_num:
+                prefix += ch
+                mp.add(prefix)
+
+        ans = 0
+        for num in arr2:
+            str_num = str(num)
+            prefix = ""
+            for ch in str_num:
+                prefix += ch
+                if prefix in mp:
+                    ans = max(ans, len(prefix))
+        return ans
+
+//------JavaScript------
+class Solution {
+    longestCommonPrefix(arr1, arr2) {
+        const mp = new Set();
+        for (const num of arr1) {
+            const str = num.toString();
+            let prefix = '';
+            for (const ch of str) {
+                prefix += ch;
+                mp.add(prefix);
+            }
+        }
+        let ans = 0;
+        for (const num of arr2) {
+            const str = num.toString();
+            let prefix = '';
+            for (const ch of str) {
+                prefix += ch;
+                if (mp.has(prefix)) {
+                    ans = Math.max(ans, prefix.length);
+                }
+            }
+        }
+        return ans;
+    }
+}
+
+//------TypeScript------
+class Solution {
+    longestCommonPrefix(arr1: number[], arr2: number[]): number {
+        const mp = new Set<string>();
+        for (const num of arr1) {
+            const str = num.toString();
+            let prefix = '';
+            for (const ch of str) {
+                prefix += ch;
+                mp.add(prefix);
+            }
+        }
+        let ans = 0;
+        for (const num of arr2) {
+            const str = num.toString();
+            let prefix = '';
+            for (const ch of str) {
+                prefix += ch;
+                if (mp.has(prefix)) {
+                    ans = Math.max(ans, prefix.length);
+                }
+            }
+        }
+        return ans;
+    }
+}
